@@ -6,28 +6,30 @@
 /*   By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 19:30:19 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/05/15 18:02:04 by gjeanmai         ###   ########.fr       */
+/*   Updated: 2016/05/15 21:23:12 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void		ft_init(char **argv)
+void		ft_init(char **argv, int fd, int j)
 {
-	int		fd;
 	int		i;
 	int		count;
 	char	buf[BUFSIZE + 1];
 
 	i = 1;
-	count = 0;
-	fd = open(argv[i], O_RDONLY);
-	while (i - 1 <= 16)
+	if (fd > 0)
 	{
-		buf[i - 1] = '\0';
-		i++;
+		while (i <= 16)
+		{
+			buf[i] = '\0';
+			i++;
+		}
+		count = 0;
+		fd = open(argv[j], O_RDONLY);
+		ft_hexdump(fd, i, count, buf);
 	}
-	ft_hexdump(fd, i, count, buf);
 }
 
 void		ft_hexdump(int fd, int i, int count, char *buf)
