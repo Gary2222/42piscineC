@@ -6,7 +6,7 @@
 /*   By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 19:53:21 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/05/13 18:56:57 by gjeanmai         ###   ########.fr       */
+/*   Updated: 2016/05/14 21:57:15 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int		ft_strcmp(char *s1, char *s2);
 void	ft_putstr(char *str);
 void	ft_putchar(char c);
 int		ft_strlen(char *str);
-void	ft_hexdump(char **argv);
+void	ft_init(char **argv);
+void	ft_hexdump(int fd, int i, int count, char *buf);
 char	*ft_itoa(int nbr);
 void	ft_print_count(char *count);
 void	ft_print_octet(char *octet);

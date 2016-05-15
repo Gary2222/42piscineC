@@ -6,7 +6,7 @@
 /*   By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 18:39:59 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/05/13 03:05:30 by gjeanmai         ###   ########.fr       */
+/*   Updated: 2016/05/15 18:14:51 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			main(int argc, char **argv)
 	fd = open(argv[i], O_RDONLY);
 	if (open(argv[i], O_RDONLY) < 0 && argv[2] == NULL)
 		ft_error(fd, argv, i);
-	else if (ft_strcmp(argv[1], C) != 0 && open(argv[i], O_RDONLY) >= 0)
-		ft_hexdump(argv);
+	if (ft_strcmp(argv[1], C) != 0 && open(argv[i], O_RDONLY) >= 0)
+		ft_init(argv);
 	return (0);
 }

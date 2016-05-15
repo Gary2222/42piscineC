@@ -6,15 +6,13 @@
 /*   By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 19:30:19 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/05/13 18:58:58 by gjeanmai         ###   ########.fr       */
+/*   Updated: 2016/05/15 18:02:04 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-// der
-
-void		ft_hexdump(char **argv)
+void		ft_init(char **argv)
 {
 	int		fd;
 	int		i;
@@ -24,20 +22,26 @@ void		ft_hexdump(char **argv)
 	i = 1;
 	count = 0;
 	fd = open(argv[i], O_RDONLY);
-//	printf("nous allons entrer dans le while\n");
+	while (i - 1 <= 16)
+	{
+		buf[i - 1] = '\0';
+		i++;
+	}
+	ft_hexdump(fd, i, count, buf);
+}
+
+void		ft_hexdump(int fd, int i, int count, char *buf)
+{
 	while (read(fd, buf, BUFSIZE))
 	{
-//		printf("While...\n");
 		i = 0;
-//		printf("appel de ft_print_count\n");
 		ft_print_count(ft_itoa(count));
-//		printf("fin de ft_print_count\n");
 		while (i < BUFSIZE)
 		{
-			if (buf[i] != '\0')
+			if (buf[i])
 			{
-//				printf("appel de ft_print_octet\n");
 				ft_print_octet(&buf[i]);
+				buf[i] = '\0';
 				count++;
 			}
 			else
@@ -46,4 +50,6 @@ void		ft_hexdump(char **argv)
 		}
 		ft_putchar('\n');
 	}
+	ft_print_count(ft_itoa(count));
+	ft_putchar ('\n');
 }
