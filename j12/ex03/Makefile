@@ -5,22 +5,36 @@
 #                                                     +:+ +:+         +:+      #
 #    By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/03/04 21:02:09 by gjeanmai          #+#    #+#              #
-#    Updated: 2016/05/13 00:20:29 by gjeanmai         ###   ########.fr        #
+#    Created: 2016/05/17 20:48:56 by gjeanmai          #+#    #+#              #
+#    Updated: 2016/05/17 21:14:56 by gjeanmai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_hexdump
 
+CC = gcc
+
+FLAG = -c -Wall -Werror -Wextra
+
 SRC = *.c
 
-all:
-	gcc -Wall -Wextra -Werror $(SRC) -o $(NAME)
+OBJ = *.o
+
+HDR = *.h
+
+RM = rm -f
+
+all: $(NAME)
+
+$(NAME):
+	@$(CC) $(FLAG) $(SRC) $(HDR)
+	@$(CC) $(OBJ) -o $(NAME)
+	@$(RM) $(OBJ)
 
 clean:
-	/bin/rm -f *.o
+	@$(RM) $(OBJ)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all

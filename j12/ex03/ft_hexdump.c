@@ -1,57 +1,106 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hexa_without.c                                  :+:      :+:    :+:   */
+/*   hexdumpcopy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/10 19:30:19 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/05/15 21:23:12 by gjeanmai         ###   ########.fr       */
+/*   Created: 2016/05/17 21:15:15 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/05/18 23:31:40 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void		ft_init(char **argv, int fd, int j)
+int		print_hexa_without_c(int i, int offset, int fd, char **av)
+{
+	int		bytes_read;
+	char	*buf;
+
+	bytes_read = 0;
+	buf = (char*)malloc(sizeof(char) * BUFSIZE + 1);
+	while ((read(fd, buf, BUFSIZE)))
+	{
+		buf[BUFSIZE] = '\0';
+		ft_print_without_c(offset);
+		hexa_buff_without_c(buf);
+		bytes_read += 16;
+		offset += 16;
+		if (size_files(i, av) % 16 != 0 &&
+		bytes_read == (size_files(i, av) / 16) * 16)
+		{
+			ft_last_line2(i, av, offset, fd);
+			offset += (size_files(i, av) % 16);
+			close(fd);
+			break ;
+		}
+		else if (size_files(i, av) % 16 == 0 &&
+		bytes_read == (size_files(i, av) / 16 * 16) && !av[++i])
+			print_without_c(offset);
+	}
+	return (offset);
+}
+
+void	ft_hexa_without_c(int ac, char **av)
 {
 	int		i;
-	int		count;
-	char	buf[BUFSIZE + 1];
+	int		offset;
+	int		fd;
 
-	i = 1;
-	if (fd > 0)
+	i = 0;
+	offset = 0;
+	while (++i < ac)
 	{
-		while (i <= 16)
-		{
-			buf[i] = '\0';
-			i++;
-		}
-		count = 0;
-		fd = open(argv[j], O_RDONLY);
-		ft_hexdump(fd, i, count, buf);
+		fd = open(av[i], O_RDONLY);
+		ft_error(fd, av, i);
+		if (fd >= 0)
+			offset = print_hexa_without_c(i, offset, fd, av);
 	}
 }
 
-void		ft_hexdump(int fd, int i, int count, char *buf)
+int		print_hexa_with_c(int i, int offset, int fd, char **av)
 {
-	while (read(fd, buf, BUFSIZE))
+	int		x;
+	char	*buf;
+
+	x = 0;
+	buf = (char*)malloc(sizeof(char) * BUFSIZE + 1);
+	while ((read(fd, buf, BUFSIZE)))
 	{
-		i = 0;
-		ft_print_count(ft_itoa(count));
-		while (i < BUFSIZE)
+		buf[BUFSIZE] = '\0';
+		ft_print_with_c(offset);
+		hexa_buff_with_c(buf);
+		final_line_option(buf, 0);
+		x += 16;
+		offset += 16;
+		if (size_files(i, av) % 16 != 0 && x == (size_files(i, av) / 16) * 16)
 		{
-			if (buf[i])
-			{
-				ft_print_octet(&buf[i]);
-				buf[i] = '\0';
-				count++;
-			}
-			else
-				ft_putstr("   ");
-			i++;
+			ft_last_line(i, av, offset, fd);
+			offset += (size_files(i, av) % 16);
+			close(fd);
+			break ;
 		}
-		ft_putchar('\n');
+		else if (size_files(i, av) % 16 == 0 &&
+				x == (size_files(i, av) / 16 * 16) && !av[++i])
+			print_with_c(offset);
 	}
-	ft_print_count(ft_itoa(count));
-	ft_putchar ('\n');
+	return (offset);
+}
+
+void	ft_hexa_with_c(int ac, char **av)
+{
+	int		i;
+	int		offset;
+	int		fd;
+
+	i = 1;
+	offset = 0;
+	fd = open(av[i], O_RDONLY);
+	while (++i < ac)
+	{
+		fd = open(av[i], O_RDONLY);
+		ft_error(fd, av, i);
+		if (fd >= 0)
+			offset = print_hexa_with_c(i, offset, fd, av);
+	}
 }
