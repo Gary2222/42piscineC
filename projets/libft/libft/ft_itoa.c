@@ -3,53 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aanzieu <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gjeanmai <gjeanmai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/10 20:04:37 by aanzieu           #+#    #+#             */
-/*   Updated: 2016/03/12 14:23:41 by aanzieu          ###   ########.fr       */
+/*   Created: 2016/05/12 21:27:24 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/05/12 23:11:12 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "header.h"
 
-static size_t	ft_len_nbr(int n)
+int		ft_intlen(int nbr)
 {
-	int size;
+	int len;
 
-	size = 0;
-	if (n < 0)
-		size++;
-	while (n / 10 != 0)
+	len = 0;
+	while (nbr >= 10)
 	{
-		n /= 10;
-		size++;
+		nbr = nbr / 10;
+		len++;
 	}
-	size++;
-	return (size);
+	len++;
+	return (len);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int nbr)
 {
-	char	*new;
-	size_t	len;
+	char *str;
+	int i;
 
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	len = ft_len_nbr(n);
-	if (!(new = (char*)malloc((len + 1) * sizeof(char))))
-		return (NULL);
-	if (n < 0)
+	str = (char *)malloc(sizeof(char) * ft_intlen(nbr) + 1);
+	i = ft_intlen(nbr);
+	str[i] = '\0';
+	i--;
+	while (nbr >= 10)
 	{
-		*new = '-';
-		n *= -1;
+		str[i] = (nbr % 10) + 48;
+		nbr = (nbr / 10);
+		i--;
 	}
-	new[len] = '\0';
-	while (n >= 10)
-	{
-		new[len - 1] = n % 10 + '0';
-		n = n / 10;
-		len--;
-	}
-	new[len - 1] = n + '0';
-	return (new);
+	str[i] = nbr + 48;
+	return (str);
 }
