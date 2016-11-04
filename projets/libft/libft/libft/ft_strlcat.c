@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeanmai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/27 23:20:40 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/11/02 19:52:19 by gjeanmai         ###   ########.fr       */
+/*   Created: 2016/11/02 15:46:56 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/11/02 16:01:29 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s)
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
-	i = 0;
+	i = ft_strlen(dest);
 	j = 0;
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	while (s[ft_strlen(s) - (j - 1)] == ' ' || s[ft_strlen(s) - (j - 1)] == '\n'
-			|| s[ft_strlen(s) - (j - 1)] == '\t')
+	if (size == 0)
+		return (ft_strlen(src));
+	if (i > size - 1)
+		return (size + ft_strlen(src));
+	while ((i + j < size - 1) && src[j])
+	{
+		dest[j + i] = src[j];
 		j++;
-	return (ft_strsub(s, i, ft_strlen(s) - (i + j)));
+	}
+	dest[j + i] = '\0';
+	return (i + ft_strlen(src));
 }

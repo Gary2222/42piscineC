@@ -6,62 +6,73 @@
 /*   By: gjeanmai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/28 00:55:04 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/10/28 14:42:51 by gjeanmai         ###   ########.fr       */
+/*   Updated: 2016/11/01 16:13:33 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int      ft_nb_words(char const *s, char c)
+static int		ft_countword(char const *s, char c)
 {
-	int         i;
-	int         j;
+	int i;
 
 	i = 0;
-	j = 0;
-	while (s[i])
+	while (*s)
 	{
-		if (s[i] == c)
+		while (*s && *s == c)
+			s++;
+		if (*s && *s != c)
 		{
-			j++;
-			while (s[i] == c)
-				i++;
+			i += 1;
+			while (*s && *s != c)
+				s++;
 		}
-		else
-			i++;
 	}
-	return (j);
-}
-
-static int      ft_wordlen(char const *s, char c)
-{
-	int         i;
-
-	i = 0;
-	while (s[i] != c)
-		i++;
 	return (i);
 }
 
-char            **ft_strsplit(char const *s, char c)
+static char		*ft_dup(char const *s, char c)
 {
-	int         i;
-	int         j;
-	char        **str;
+	char	*word;
+	int		len;
+	int		i;
 
+	len = 0;
+	while (s[len] != c && s[len])
+		len++;
+	if (!(word = (char*)malloc(sizeof(char) * len + 1)))
+		return (NULL);
 	i = 0;
-	j = 0;
-	str = ft_strnew(ft_nb_words(s, c) + 1);
-	while (s[i])
-		{
-		if (ft_wordlen(s[i], c) >= 1)
-		{
-			i = i + ft_wordlen(s[i], c);
- 			str[j] = ft_strsub(s, i, ft_wordlen(s[i], c));
-			j++;
-		}
+	while (i < len)
+	{
+		word[i] = s[i];
 		i++;
 	}
-	str[j] = '\0';
-	return (str)
+	word[i] = '\0';
+	return (word);
+}
+
+char			**ft_strsplit(char const *s, char c)
+{
+	char	**tab;
+	int		i;
+	int		len;
+
+	if (!s || !c)
+		return (NULL);
+	i = -1;
+	len = ft_countword(s, c);
+	if (!(tab = (char**)malloc(sizeof(char*) * len + 1)))
+		return (NULL);
+	while (*s)
+	{
+		while (*s == c && *s)
+			s++;
+		if (*s && *s != c)
+			tab[++i] = ft_dup(s, c);
+		while (*s && *s != c)
+			s++;
+	}
+	tab[++i] = NULL;
+	return (tab);
 }

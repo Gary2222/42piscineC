@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeanmai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/27 23:20:40 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/11/02 19:52:19 by gjeanmai         ###   ########.fr       */
+/*   Created: 2016/11/03 14:51:25 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/11/03 15:36:12 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s)
+t_list		*ft_lstnew(void const *content, size_t content_size)
 {
-	int		i;
-	int		j;
+	t_list	*lst;
 
-	i = 0;
-	j = 0;
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	while (s[ft_strlen(s) - (j - 1)] == ' ' || s[ft_strlen(s) - (j - 1)] == '\n'
-			|| s[ft_strlen(s) - (j - 1)] == '\t')
-		j++;
-	return (ft_strsub(s, i, ft_strlen(s) - (i + j)));
+	if ((lst = malloc(sizeof(t_list))) == NULL)
+		return (NULL);
+	lst->content = (void*)content;
+	lst->content_size = content_size;
+	if (content == NULL)
+		lst->content_size = 0;
+	lst->next = (NULL);
+	return (lst);
 }

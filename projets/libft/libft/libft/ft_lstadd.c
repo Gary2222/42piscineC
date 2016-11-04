@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeanmai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/27 23:20:40 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/11/02 19:52:19 by gjeanmai         ###   ########.fr       */
+/*   Created: 2016/11/03 17:49:08 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/11/03 18:02:51 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s)
+void		ft_lstadd(t_list **alst, t_list *new)
 {
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	while (s[ft_strlen(s) - (j - 1)] == ' ' || s[ft_strlen(s) - (j - 1)] == '\n'
-			|| s[ft_strlen(s) - (j - 1)] == '\t')
-		j++;
-	return (ft_strsub(s, i, ft_strlen(s) - (i + j)));
+	if ((*alst)->next == NULL)
+		(*alst)->next = new;
+	else
+		ft_lstadd(&(*alst)->next, new);
 }

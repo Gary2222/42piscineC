@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeanmai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/27 23:20:40 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/11/02 19:52:19 by gjeanmai         ###   ########.fr       */
+/*   Created: 2016/11/03 21:51:35 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/11/03 22:41:57 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s)
+t_list		*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	while (s[ft_strlen(s) - (j - 1)] == ' ' || s[ft_strlen(s) - (j - 1)] == '\n'
-			|| s[ft_strlen(s) - (j - 1)] == '\t')
-		j++;
-	return (ft_strsub(s, i, ft_strlen(s) - (i + j)));
+	t_list	*new;
+	
+	if (lst == NULL)
+		return (NULL);
+	new = ft_lstnew(lst->content, lst->content_size);
+	while (lst != NULL)
+		ft_lstadd(&new, f(lst));
+	return (new);
 }

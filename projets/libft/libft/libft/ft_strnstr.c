@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeanmai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/27 23:20:40 by gjeanmai          #+#    #+#             */
-/*   Updated: 2016/11/02 19:52:19 by gjeanmai         ###   ########.fr       */
+/*   Created: 2016/11/01 16:33:24 by gjeanmai          #+#    #+#             */
+/*   Updated: 2016/11/02 18:08:00 by gjeanmai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <string.h>
 
-char		*ft_strtrim(char const *s)
+char		*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	int		i;
-	int		j;
+	unsigned long i;
 
 	i = 0;
-	j = 0;
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
+	if (!little)
+		return ((char *)big);
+	if (!big || len <= 0)
+		return (NULL);
+	while (big[i] == little[i])
+	{
+		if (i == ft_strlen(little))
+			return ((char *)big);
 		i++;
-	while (s[ft_strlen(s) - (j - 1)] == ' ' || s[ft_strlen(s) - (j - 1)] == '\n'
-			|| s[ft_strlen(s) - (j - 1)] == '\t')
-		j++;
-	return (ft_strsub(s, i, ft_strlen(s) - (i + j)));
+	}
+	return (ft_strnstr((char *)big + 1, little, len - 1));
 }
